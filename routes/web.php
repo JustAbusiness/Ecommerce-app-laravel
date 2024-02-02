@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\AuthController;
+use App\Http\Middleware\AuthenticateMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/dashboard/index', function () {
+    echo('Dashboard ne');
+})->middleware(AuthenticateMiddleware::class)->name('dashboard.index');
+
+
+Route::get('/admin', [AuthController::class, 'index'])->name('auth.login');
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
