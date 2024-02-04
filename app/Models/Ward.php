@@ -9,8 +9,15 @@ class Ward extends Model
 {
     use HasFactory;
     protected $table = 'wards';
+    protected $primaryKey = 'code';
+    public $incrementing = false;
 
     protected $fillable = [
         'name'
     ];
+
+    public function districts()
+    {
+        return $this->belongsTo(District::class, 'district_code', 'code');
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\UserServiceInterface as UserService;
@@ -34,5 +35,14 @@ class UserController extends Controller
         ];
 
         return view('backedn.users.create', compact('location'));
+    }
+
+    public function store(StoreUserRequest $request)
+    {
+        if ($this->userService->create($request)) {
+            return redirect()->route('users.index')->with('success', 'Create new member successfully!');
+        }
+
+        return redirect()->back()->with('error', 'Something went wrong!');
     }
 }
