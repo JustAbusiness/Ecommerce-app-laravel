@@ -39,7 +39,7 @@ class UserService implements UserServiceInterface
             $payload['password'] = Hash::make($payload['password']);
 
             $user = $this->userRepository->create();
-
+            
             DB::commit();
             return true;
         }catch (\Exception $e) {
