@@ -30,6 +30,8 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('create', [UserController::class, 'create'])->name('user.create')->middleware(AuthenticateMiddleware::class);
     Route::post('store', [UserController::class, 'store'])->name('user.store')->middleware(AuthenticateMiddleware::class);
     Route::get('{id}/edit', [UserController::class, 'edit'])->where('id', '[0-9]+')->name('user.edit')->middleware(AuthenticateMiddleware::class);
+    Route::post('{id}/update', [UserController::class, 'update'])->where('id', '[0-9]+')->name('user.update')->middleware(AuthenticateMiddleware::class);
+    Route::post('{id}/delete', [UserController::class, 'delete'])->where('id', '[0-9]+')->name('user.delete')->middleware(AuthenticateMiddleware::class);
 
 });
 

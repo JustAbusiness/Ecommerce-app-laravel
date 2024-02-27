@@ -2,12 +2,12 @@
 
 namespace App\Repositories\Interfaces;
 
+use App\Repositories\Interfaces\BaseRepositoryInterface;
 /**
  * Interface UserServiceInterface
  * @package App\Services\Interfaces
  */
-interface UserRepositoryInterface
+interface UserRepositoryInterface extends BaseRepositoryInterface
 {
-    public function getAllPaginate();
-    public function create();
+  
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\UserServiceInterface as UserService;
@@ -55,5 +56,30 @@ class UserController extends Controller
         $province = $this->provinceRepository->all();
 
         return view('backend.users.edit', compact('user', 'province'));
+    }
+
+    public function update($id, UpdateUserRequest $request)
+    {
+        if ($this->userService->update($id,$request)) {
+            return redirect()->route('users.update')->with('success', 'Update member successfully!');
+        }
+
+        return redirect()->back()->with('error', 'Something went wrong!');
+    }
+
+    public function delete($id)
+    {
+       $user = $this->userRepository->findById($id);
+       return view('backend.users.delete', compact('user'));
+    }
+
+    public function destroy($id)
+    {
+        if ($this->userService->delete($id)) {
+            return redirect()->route('users.delete')->with('success', 'Delete successfully!');
+        }
+
+        return redirect()->back()->with('error', 'Something went wrong!');
+
     }
 }
