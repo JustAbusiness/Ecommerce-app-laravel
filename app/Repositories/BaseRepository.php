@@ -17,13 +17,18 @@ class BaseRepository implements BaseRepositoryInterface
 
     }
 
-    public function pagination(array $column = ['*'], array $condition = [], array $join = [], int $perpage = 20)
+    public function pagination(array $column = ['*'], array $condition = [], array $join = [], array $extend = [], int $perpage = 20)
     {
-        $query = $this->model->select($column)->where($condition);
+        $query = $this->model->select($column)->where(function($query) use ($condition){
+            if (isset($condition['keyword']) && !empty($condition['keyword'])) {
+                $query->where('name', 'LIKE', '%'.$condition['keyword'].'%');
+            }
+            retirn: true;
+        });
         if (!empty($join)) {
             $query->join(...$join);
         }
-        return $query->paginate($perpage);
+        return $query->paginate($perpage)->withQueryString()->withPath(env('APP_URL').'backend.user.catalogue.index');
     }
 
     public function all()
@@ -45,6 +50,11 @@ class BaseRepository implements BaseRepositoryInterface
     {
         $model = $this->findById($id);
         return $model->update($payload);
+    }
+
+    public function updateByWhereIn(string $whereInField = '', array $whereIn = [], array $payload = [])
+    {
+        return $this->model->whereIn($whereInField, $whereIn)->update($payload);
     }
     public function delete(int $id = 0)
     {
