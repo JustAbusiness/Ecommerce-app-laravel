@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Repositories\Interfaces\UserRepositoryInterface as UserRepository;
-use App\Services\Interfaces\UserServiceInterface;
+use App\Repositories\Interfaces\UserCatalogueRepositoryInterface as UserCatalogueRepository;
+use App\Services\Interfaces\UserCatalogueServiceInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -13,13 +13,13 @@ use Illuminate\Support\Facades\Hash;
  * Class UserService
  * @package App\Services
  */
-class UserService implements UserServiceInterface
+class UserCatalogueService implements UserCatalogueServiceInterface
 {
-    protected $userRepository;
+    protected $userCatalogueRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserCatalogueRepository $userCatalogueRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->userCatalogueRepository = $userCatalogueRepository;
     }
 
     private function paginateSelect()
@@ -92,7 +92,7 @@ class UserService implements UserServiceInterface
         DB::beginTransaction();
         try {
             $payload[$post['field']] = (($post['value'] == 1) ? 0 : 1);
-            $user = $this->userRepository->update($post['modelId'], $payload);
+            $user = $this->userRepository->update($post['modelId'],$payload);
 
             DB::commit();
             return true;

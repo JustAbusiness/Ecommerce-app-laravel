@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\UserCatalogueController;
 use App\Http\Middleware\AuthenticateMiddleware;
 
 /*
@@ -32,6 +33,16 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('{id}/edit', [UserController::class, 'edit'])->where('id', '[0-9]+')->name('user.edit')->middleware(AuthenticateMiddleware::class);
     Route::post('{id}/update', [UserController::class, 'update'])->where('id', '[0-9]+')->name('user.update')->middleware(AuthenticateMiddleware::class);
     Route::post('{id}/delete', [UserController::class, 'delete'])->where('id', '[0-9]+')->name('user.delete')->middleware(AuthenticateMiddleware::class);
+
+});
+
+Route::group(['prefix' => 'user/catalogue'], function () {
+    Route::get('index', [UserCatalogueController::class, 'index'])->name('user.catalogue.index')->middleware(AuthenticateMiddleware::class);
+    Route::get('create', [UserCatalogueController::class, 'create'])->name('user.catalogue.create')->middleware(AuthenticateMiddleware::class);
+    Route::post('store', [UserCatalogueController::class, 'store'])->name('user.catalogue.store')->middleware(AuthenticateMiddleware::class);
+    Route::get('{id}/edit', [UserCatalogueController::class, 'edit'])->where('id', '[0-9]+')->name('user.catalogue.edit')->middleware(AuthenticateMiddleware::class);
+    Route::post('{id}/update', [UserCatalogueController::class, 'update'])->where('id', '[0-9]+')->name('user.catalogue.update')->middleware(AuthenticateMiddleware::class);
+    Route::post('{id}/delete', [UserCatalogueController::class, 'delete'])->where('id', '[0-9]+')->name('user.catalogue.delete')->middleware(AuthenticateMiddleware::class);
 
 });
 
